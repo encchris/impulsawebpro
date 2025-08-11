@@ -1,0 +1,108 @@
+{
+    "mainRoot": [
+        {
+            "item": "div",
+            "atributos": {
+                "id": "divID",
+                "class": [
+                    "primera-clase",
+                    "active"
+                ]
+            },
+            "propiedades": {
+                "divID": {
+                    "background": "#fff",
+                    "color": "#eee"
+                }
+            },
+            "children": [
+                {
+                    "item": "input",
+                    "atributos": {
+                        "id": "inputID",
+                        "class": [
+                            "primera-clase",
+                            "active"
+                        ]
+                    },
+                    "propiedades": {
+                        "inputID": {
+                            "background": "#fff",
+                            "color": "#eee"
+                        }
+                    },
+                    "children": []
+                },
+                {
+                    "item": "label",
+                    "atributos": {
+                        "id": "labelID",
+                        "class": [
+                            "primera-clase",
+                            "active"
+                        ]
+                    },
+                    "propiedades": {
+                        "labelID": {
+                            "background": "#fff",
+                            "color": "#eee"
+                        }
+                    },
+                    "children": []
+                }
+            ]
+        },
+        {
+            "item": "h1",
+            "atributos": {
+                "id": "h1ID",
+                "class": [
+                    "primera-clase",
+                    "active"
+                ]
+            },
+            "propiedades": {
+                "h1ID": {
+                    "background": "#fff",
+                    "color": "#eee"
+                }
+            },
+            "children": [
+                {
+                    "item": "span",
+                    "atributos": {
+                        "id": "spanID",
+                        "class": [
+                            "primera-clase",
+                            "active"
+                        ]
+                    },
+                    "propiedades": {
+                        "spanID": {
+                            "background": "#fff",
+                            "color": "#eee"
+                        }
+                    },
+                    "children": []
+                }
+            ]
+        },
+        {
+            "item": "footer",
+            "atributos": {
+                "id": "footerID",
+                "class": [
+                    "primera-clase",
+                    "active"
+                ]
+            },
+            "propiedades": {
+                "footerID": {
+                    "background": "#fff",
+                    "color": "#eee"
+                }
+            },
+            "children": []
+        }
+    ]
+}
