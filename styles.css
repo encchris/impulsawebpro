@@ -29,7 +29,25 @@ aside {
     margin-bottom: 1rem;
 }
 
-.treeview-item.active {
+.treeview-details-content {
+    display: grid;
+    margin-bottom: 8px;
+    grid-template-columns: 1fr 20%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.treeview-item {
+    color: #a0a0a0;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.treeview-item.indented {
+    padding-left: 25px;
+}
+
+.treeview-details-content.active {
   border: 1px solid #0078d4;
   border-radius: 4px;
 }
@@ -39,6 +57,10 @@ aside {
     overflow: hidden;
     overflow-y: auto;
     height: 100%;
+}
+
+.treeview-summary {
+    cursor: pointer;
 }
 
 .sidebar-header {
@@ -123,7 +145,7 @@ aside {
     cursor: pointer;
 }
 
-.page-item, .treeview-item {
+.page-item {
     padding: 8px 12px;
     border-radius: 4px;
     margin-bottom: 4px;
@@ -147,20 +169,7 @@ aside {
     text-decoration: none;
 }
 
-.treeview-item.indented {
-    padding-left: 25px;
-}
 
-.treeview-group {
-    margin-bottom: 8px;
-}
-
-.treeview-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #a0a0a0;
-}
 
 .treeview-toggle {
     font-size: 0.8em;

@@ -1,12 +1,88 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Impulsa web pro</title>
+</head>
+<body>
+    <div id="root">
+        <aside class="sidebar">
+          <section class="sidebar-header">
+              <div class="header-project">
+                  <span class="icon">📄</span>
+                  <div class="project-info">
+                      <span class="project-title">Project Name</span>
+                  </div>
+              </div>
+              <span class="icon">☰</span>
+          </section>
+          
+          <section class="sidebar-nav">
+              <button class="nav-button active">Archivos</button>
+              <button class="nav-button">Componentes</button>
+              <span class="search-icon">🔍</span>
+          </section>
+
+          <section class="sidebar-pages">
+              <div class="pages-header">
+                  <h3>Pages</h3>
+                  <span class="add-page">+</span>
+              </div>
+              <div class="page-item active">
+                  <p>Page 1</p>
+              </div>
+              <div class="page-limit-info">
+                  <p>2 free pages left.</p>
+                  <a href="#">See plans that offer more</a>
+              </div>
+          </section>
+
+          <section class="custom-html">
+            <div>
+              <input
+                type="text"
+                placeholder="Add tag HTML"
+                id="input-node"
+              />
+              <button type="button" id="add-node">Add</button>
+            </div>
+              <div>
+                Añadiendo hijo a: <span id="selected-path">mainRoot</span>
+              </div>
+          </section>
+
+          <section class="sidebar-treeview">
+              <div class="treeview-header">
+                  <h3>Tree View</h3>
+                  <span class="treeview-icon">☰</span>
+              </div>
+                <div class="treeview-group">  
+                    <div class="treeview-details-content">
+                        <details class="treeview-details" open>
+                            <summary class="treeview-item" data-item="root">
+                                <span class="treeview-name">Main-Root</span>
+                                <div>
+                                    <span>Del</span>
+                                </div>
+                            </summary>
+                        </details>
+                        
+                    </div>
+                </div>
+          </section>
+      </aside>
+        <main>
+          <div id="main-root">
+
+          </div>
+          <h1>main</h1>
+        </main>
+        <div>
+          <h1>panel</h1>
+        </div>
+    </div>
+    <script type="module" src="main.js"></script>
+</body>
 </html>
