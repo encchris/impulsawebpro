@@ -1,8 +1,41 @@
+const nodeIndex = new Map();
+
 let objectTree = {
     mainRoot: []
 };
 
 let selectedPath = 'root'; // Guarda la ruta del nodo seleccionado.
+
+buildNodeIndex(objectTree.mainRoot);
+
+function buildNodeIndex(nodes) {
+  for (const node of nodes) {
+    nodeIndex.set(node.identifier, node);
+    if (node.children && node.children.length > 0) {
+      buildNodeIndex(node.children);
+    }
+  }
+}
+
+function addChildByIdentifierFast(parentId, newChild) {
+    console.log(parentId);
+    
+    if (parentId === 'root') {
+        nodeIndex.set(newChild.identifier, newChild); // registrar el nodo raíz
+        return true;
+    }
+
+    const parent = nodeIndex.get(parentId);
+    if (parent) {
+        parent.children = parent.children || [];
+        parent.children.push(newChild);
+        nodeIndex.set(newChild.identifier, newChild); // registrar el hijo
+        return true;
+    }
+    return false;
+}
+
+
 
 // Función para manejar la selección de un nodo
 function selectNode(event) {
@@ -18,33 +51,42 @@ function selectNode(event) {
         // Actualizar la ruta seleccionada
         selectedPath = selectedNode.dataset.item;
         document.getElementById('selected-path').textContent = selectedPath;
+
+        console.log("Añade donde debe ser");
+        
     }
 }
 
 // Función para generar un nuevo nodo
 function generateNewNode(tagName) {
     const id = `${tagName}-${Date.now()}`;
-    return {
-        item: tagName,
-        atributos: {
-            id: id,
-            class: ['default-class']
+    const UUID = uuidv4()
+    return [
+        {
+            item: tagName,
+            identifier: UUID,
+            atributos: {
+                id: id,
+                class: ['default-class']
+            },
+            propiedades: {
+                [id]: {
+                    background: '#fff',
+                    color: '#000'
+                }
+            },
+            children: []
         },
-        propiedades: {
-            [id]: {
-                background: '#fff',
-                color: '#000'
-            }
-        },
-        children: []
-    };
+        
+        UUID
+    ];
 }
 
 // Función para generar el HTML de un nodo
 function generateNodeHTML(node, path) {
-    const isSelected = selectedPath === path ? 'active' : '';
+    const isSelected = selectedPath === path ? ' active' : '';
     return `
-        <div style="margin-left: 20px" class="treeview-item indented ${isSelected}" data-item="${path}">
+        <div style="margin-left: 20px" class="treeview-item indented${isSelected}" data-item="${path}">
             <span class="treeview-name">${node.item}</span>
             <span class="delete-icon" style="cursor: pointer; color: red;">🗑</span>
         </div>
@@ -68,21 +110,27 @@ function deleteNode(event) {
 function addNode() {
     const tagName = document.getElementById('input-node').value.trim();
     if (tagName) {
-        const newNode = generateNewNode(tagName);
-        objectTree.mainRoot.push(newNode);  // Añadimos al objeto
+        const [newNode, UUID] = generateNewNode(tagName);
+        // if(selectedPath === "root") objectTree.mainRoot.push(newNode);  // Añadimos al objeto
+        // else objectTree.mainRoot[selectedPath - 1].children.push(newNode);
 
+        addChildByIdentifierFast(selectedPath, newNode);
+
+        
         // Ahora renderizamos el nodo hijo dentro de Main-Root
         const rootDetailsContent = document.querySelector('.treeview-details-content');
         const detailsElement = rootDetailsContent.querySelector('details');  // El elemento <details>
 
-        // Obtén la nueva posición del nodo hijo
-        const nodePath = objectTree.mainRoot.length;  // Usamos el índice de los nodos como path
-
         // Crear el HTML para el nuevo nodo y agregarlo dentro de <details>
-        detailsElement.innerHTML += generateNodeHTML(newNode, nodePath);
+        detailsElement.innerHTML += generateNodeHTML(newNode, UUID);
 
         // Limpiar el input
         document.getElementById('input-node').value = '';
+
+        console.log("selected path: ", selectedPath);
+        
+        console.log("treeView", nodeIndex);
+        
     }
 }
 
