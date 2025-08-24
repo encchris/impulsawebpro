@@ -109,7 +109,7 @@ function addNode() {
         addChildByIdentifierFast(selectedPath, newNode);
 
         const rootDetailsContent = document.querySelector('.treeview-details-content');
-        const detailsElement = rootDetailsContent.querySelector('details');  // El elemento <details>
+        const detailsElement = rootDetailsContent.querySelector('.treeview-root');  // El elemento <details>
 
         renderTree(detailsElement, nodeIndex);
 
