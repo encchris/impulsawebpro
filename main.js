@@ -58,11 +58,11 @@ function addNode() {
         const rootDetailsContent = document.querySelector('.treeview-details-content');
         const detailsElement = rootDetailsContent.querySelector('.treeview-root');  // El elemento <details>
 
-        renderTree(detailsElement, Node.allNode, selectedPath);
+        renderTree(detailsElement, selectedPath);
         renderWorkArea();
         // Limpiar el input
         document.getElementById('input-node').value = '';
-        console.log("treeView", Node.allNode);
+        // console.log("treeView", Node.allNode);
     }
 }
 
