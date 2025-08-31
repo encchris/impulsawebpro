@@ -1,14 +1,11 @@
 import { MapApi } from "../api/nodeMap.js";
 const Node = new MapApi;
 
-export function renderTree(rootContainer, nodeIndex, selectedPath) {
+export function renderTree(rootContainer, selectedPath) {
 
     rootContainer.innerHTML = '';
 
-    const allChildrenIds = new Set(Array.from(nodeIndex.values()).flatMap(n => n.children || []));
-    const rootNodes = Array.from(nodeIndex.values()).filter(node => !allChildrenIds.has(node.identifier));
-
-    rootNodes.forEach(rootNode => {
+    Node.getParents.forEach(rootNode => {
         const renderedElement = renderNode(rootNode, selectedPath);
         if (renderedElement) {
             rootContainer.appendChild(renderedElement);
