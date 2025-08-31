@@ -7,6 +7,12 @@ export class MapApi {
         return nodeIndex;
     }
 
+    get getParents() {
+        const allChildrenIds = new Set(Array.from(nodeIndex.values()).flatMap(n => n.children || []));
+        const rootNodes = Array.from(nodeIndex.values()).filter(node => !allChildrenIds.has(node.identifier));
+        return rootNodes;
+    }
+
     nodeById(key) {
         return nodeIndex.get(key);
     }
