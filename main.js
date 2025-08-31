@@ -1,6 +1,6 @@
 import { MapApi } from "./src/api/nodeMap.js";
-import { renderTree } from "./src/treeview/treeview.js";
-import { renderWorkArea } from "./src/workArea/workArea.js";
+import { renderTree } from "./src/view/treeview/treeview.js";
+import { renderWorkArea } from "./src/view/workArea/workArea.js";
 
 let selectedPath = 'root';
 const Node = new MapApi();

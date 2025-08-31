@@ -1,4 +1,4 @@
-import { MapApi } from "../api/nodeMap.js";
+import { MapApi } from "../../api/nodeMap.js";
 const Node = new MapApi;
 
 export function renderTree(rootContainer, selectedPath) {
