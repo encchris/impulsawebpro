@@ -113,6 +113,7 @@ function addNode() {
 
         renderTree(detailsElement, nodeIndex);
 
+        renderWorkArea();
         // Limpiar el input
         document.getElementById('input-node').value = '';
         console.log("treeView", nodeIndex);
