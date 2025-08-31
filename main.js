@@ -1,18 +1,21 @@
-const nodeIndex = new Map([]);
+import { MapApi } from "./src/api/nodeMap.js";
+import { renderTree } from "./src/treeview/treeview.js";
+import { renderWorkArea } from "./src/workArea/workArea.js";
 
 let selectedPath = 'root';
+const Node = new MapApi();
 
 function addChildByIdentifierFast(parentId, newChild) {
     if (parentId === 'root') {
-        nodeIndex.set(newChild.identifier, newChild);
+        Node.updateNode(newChild.identifier, newChild);
         return true;
     }
 
-    const parent = nodeIndex.get(parentId);
+    const parent = Node.nodeById(parentId);
     if (parent) {
         parent.children = parent.children || [];
         parent.children.push(newChild.identifier);
-        nodeIndex.set(newChild.identifier, newChild);
+        Node.updateNode(newChild.identifier, newChild);
         return true;
     }
     return false;
@@ -44,62 +47,6 @@ function generateNewNode(tagName) {
         };
 }
 
-function renderTree(rootContainer, nodeIndex) {
-
-    rootContainer.innerHTML = '';
-
-    const allChildrenIds = new Set(Array.from(nodeIndex.values()).flatMap(n => n.children || []));
-    const rootNodes = Array.from(nodeIndex.values()).filter(node => !allChildrenIds.has(node.identifier));
-
-    rootNodes.forEach(rootNode => {
-        const renderedElement = renderNode(rootNode);
-        if (renderedElement) {
-            rootContainer.appendChild(renderedElement);
-        }
-    });
-}
-
-function renderNode(node) {
-    if (!node) return null;
-
-    let element;
-    const isSelected = selectedPath === node.identifier;
-    
-    if (node.children && node.children.length > 0) { // Si tiene hijos
-        element = document.createElement("details");
-        element.className = "treeview-details indented";
-        element.open = true; 
-        
-        const summary = document.createElement("summary");
-        summary.className = `treeview-item${isSelected ? ' active' : ''}`;
-        summary.dataset.item = node.identifier;
-        summary.textContent = node.item;
-        element.appendChild(summary);
-        
-        // Agrega todos los hijos
-        node.children.forEach(childId => {
-            const childNode = nodeIndex.get(childId);
-            const childElement = renderNode(childNode);
-            if (childElement) {
-                element.appendChild(childElement);
-            }
-        });
-        
-    } else { // Si no tiene hijos, es un nodo hoja (un <div>)
-        element = document.createElement("div");
-        element.className = `treeview-item indented${isSelected ? ' active' : ''}`;
-        element.dataset.item = node.identifier;
-        element.textContent = node.item;
-        
-        // Agregar el ícono de basura y otros elementos al div aquí
-        const deleteSpan = document.createElement("span");
-        deleteSpan.className = "delete-icon";
-        deleteSpan.textContent = "🗑";
-        element.appendChild(deleteSpan);
-    }
-    return element;
-}
-
 // Función para agregar un nodo
 function addNode() {
     const tagName = document.getElementById('input-node').value.trim();
@@ -111,12 +58,11 @@ function addNode() {
         const rootDetailsContent = document.querySelector('.treeview-details-content');
         const detailsElement = rootDetailsContent.querySelector('.treeview-root');  // El elemento <details>
 
-        renderTree(detailsElement, nodeIndex);
-
+        renderTree(detailsElement, Node.allNode, selectedPath);
         renderWorkArea();
         // Limpiar el input
         document.getElementById('input-node').value = '';
-        console.log("treeView", nodeIndex);
+        console.log("treeView", Node.allNode);
     }
 }
 
