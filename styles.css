@@ -194,6 +194,41 @@ main {
     background-color: #2b6cb0;
 }
 
-.panel {
-    background-color: #38a169;
+#toolset-root {
+    background-color: #2c2c2c;
+
+    .tool {
+        padding: 10px;
+        border-bottom: 1px solid #666;
+        display: flex;
+        gap: 10px;
+
+        div {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            color: #FFF;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+            #position {
+                border: none;
+                background-color: transparent;
+                color: #FFF;
+
+                &:picker-icon {
+                    color: #999999;
+                    transition: 0.4s rotate;
+                }
+
+                &:open::picker-icon {
+                    rotate: 180deg;
+                }
+
+                &:focus {
+                    outline: none;
+                    box-sizing: border-box;
+                }
+            }
+        }
+    }
 }

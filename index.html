@@ -73,14 +73,37 @@
                     </div>
                 </div>
           </section>
-      </aside>
+        </aside>
         <main>
-          <div id="main-root">
+            <div id="main-root">
 
-          </div>
+            </div>
         </main>
-        <div>
-          <h1>panel</h1>
+        <div id="toolset-root">
+            <div class="tool">
+                <button class="nav-button active">Diseño</button>
+                <button class="nav-button">Interacción</button>
+            </div>
+            <div class="tool">
+                <div>
+                    <span>Position</span>
+                    <select name="position" id="position">
+                        <button>
+                            <selectedcontent></selectedcontent>
+                        </button>
+                        <option value="absolute">Absolute</option>
+                        <option value="fixed">Fixed</option>
+                        <option value="relative">Relative</option>
+                        <option value="static">Static</option>
+                        <option value="sticky">Sticky</option>
+                        <option value="inherit">Inherit</option>
+                        <option value="initial">Initial</option>
+                        <option value="revert">Revert</option>
+                        <option value="revert-layer">revert-layer</option>
+                        <option value="unset">Unset</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
     <script src="helpers/uuid.js"></script>

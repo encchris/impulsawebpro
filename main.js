@@ -1,4 +1,5 @@
 import { MapApi } from "./src/api/nodeMap.js";
+import { renderToolset } from "./src/view/toolset/toolset.js";
 import { renderTree } from "./src/view/treeview/treeview.js";
 import { renderWorkArea } from "./src/view/workArea/workArea.js";
 
@@ -60,6 +61,7 @@ function addNode() {
 
         renderTree(detailsElement, selectedPath);
         renderWorkArea();
+        renderToolset(selectedPath);
         // Limpiar el input
         document.getElementById('input-node').value = '';
         // console.log("treeView", Node.allNode);
