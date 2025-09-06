@@ -1,5 +1,5 @@
 import { MapApi } from "./src/api/nodeMap.js";
-import { renderToolset } from "./src/view/toolset/toolset.js";
+import { renderStyles, renderToolset } from "./src/view/toolset/toolset.js";
 import { renderTree } from "./src/view/treeview/treeview.js";
 import { renderWorkArea } from "./src/view/workArea/workArea.js";
 
@@ -32,7 +32,9 @@ function selectNode(event) {
         selectedNode.classList.add('active');        
         
         selectedPath = selectedNode.dataset.item;
-        document.getElementById('selected-path').textContent = selectedPath;       
+        document.getElementById('selected-path').textContent = selectedPath;
+
+        renderStyles(selectedPath);
     }
 }
 
@@ -43,7 +45,6 @@ function generateNewNode(tagName) {
             item: tagName,
             identifier: UUID,
             atributos: {},
-            propiedades: {},
             children: []
         };
 }
@@ -68,11 +69,37 @@ function addNode() {
     }
 }
 
+function addStyle() {
+    if (selectedPath === 'root') return;
+    const inputKey = document.getElementById('atributo');
+    const inputValue = document.getElementById('atributo-value');
+
+    const nodeSelected = Node.nodeById(selectedPath);
+
+    if (!nodeSelected.atributos.style) {
+        nodeSelected.atributos.style = {};
+    }
+
+    nodeSelected.atributos.style[inputKey.value] = inputValue.value;
+
+    Node.updateNode(selectedPath, nodeSelected);
+
+    renderWorkArea();
+    renderStyles(selectedPath);
+
+    inputKey.value = '';
+    inputValue.value = '';
+
+    console.log(Node.nodeById(selectedPath).atributos);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const sidebarTreeview = document.querySelector('.sidebar-treeview');
     const btnAddNode = document.getElementById('add-node');
+    const btnAddStyle = document.getElementById('btn-add-style');
     
     // EVENTOS
     sidebarTreeview.addEventListener('click', (event) => { selectNode(event) });
     btnAddNode.addEventListener('click', addNode);
+    btnAddStyle.addEventListener('click', addStyle);
 });

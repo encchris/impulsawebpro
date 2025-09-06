@@ -14,6 +14,8 @@ export function renderWorkArea() {
         //Generación del código HTML
         const element = document.createElement(value.item);
         element.dataset.item = value.identifier;
+        
+        if (value.atributos.style) Object.assign(element.style, value.atributos.style);
 
         if (value.children && value.children.length > 0) { // Si tiene hijos
             // Agrega todos los hijos
