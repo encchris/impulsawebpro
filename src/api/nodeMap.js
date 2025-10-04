@@ -1,5 +1,9 @@
-const nodeIndex = new Map([]);
+//Nodo
+const jsonString = localStorage.getItem('Nodo');
+const arrayFromStorage = JSON.parse(jsonString) ?? [];
 
+const nodeIndex = new Map(arrayFromStorage);
+let selectedPath = 'root';
 export class MapApi {
     /* TODO: tendría la función de:
     agregar, eliminar, actualizar y leer*/
@@ -23,7 +27,38 @@ export class MapApi {
     }
 
     deleteNode(key) {
+        const node = this.nodeById(key);
+
+        if(node.children) {
+            node.children.forEach(child => {
+                nodeIndex.delete(child);
+            })
+        }
+
         nodeIndex.delete(key);
+
+        this.getParents.forEach(node => {
+            const index = node.children.indexOf(key);
+            if (index > -1) {
+                node.children.splice(index, 1);
+                return;
+            }
+        });
         return nodeIndex;
+    }
+
+    cleanNode() {
+        nodeIndex.clear();
+        return nodeIndex;
+    }
+}
+
+export class SelectedPath {
+    get get() {
+        return selectedPath;
+    }
+
+    set(value) {
+        selectedPath = value;
     }
 }
