@@ -13,7 +13,7 @@ export function renderStyles(selectedPath) {
     const styleContainer = document.getElementById('styles');
     styleContainer.innerHTML = '';
 
-    if(!nodeSelected.atributos.style) return;
+    if(!nodeSelected?.atributos.style) return;
 
     const keys = Object.keys(nodeSelected.atributos.style);
 
@@ -40,10 +40,15 @@ export function renderStyles(selectedPath) {
 
 function updateAttr(event, selectedPath) {
     const input = event.target
-
     const nodeSelected = Node.nodeById(selectedPath);
-    nodeSelected.atributos.style[input.dataset.item] = input.value;
-    Node.updateNode(selectedPath, nodeSelected);
 
+    if(!input.value) {
+        delete nodeSelected.atributos.style[input.dataset.item];
+    } else {
+        nodeSelected.atributos.style[input.dataset.item] = input.value;
+        Node.updateNode(selectedPath, nodeSelected);
+    }
+    
+    renderStyles(selectedPath);
     renderWorkArea();
 }
