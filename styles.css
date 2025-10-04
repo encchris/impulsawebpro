@@ -41,6 +41,19 @@ aside {
     color: #a0a0a0;
     cursor: pointer;
     padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .delete-icon{
+        font-size: 1.3rem;
+        background: transparent;
+        border: none;
+        color: #a0a0a0;
+        cursor: pointer;
+        &:hover {
+            color: #ff00009c;
+        }
+    }
 }
 
 .indented {
@@ -192,6 +205,8 @@ aside {
 
 main {
     background-color: #2b6cb0;
+    position: relative;
+    overflow: hidden;
 }
 
 #toolset-root {
@@ -233,8 +248,13 @@ main {
 
             &#styles {
                 flex-direction: column;
+                max-height: 190px;
+                overflow: hidden;
+                overflow-y: auto;
                 .tool {
                     flex-direction: row;
+                    border: none;
+                    border-top: 1px solid #666;
                     input {
                         padding: 5px;
                         background-color: #222;
@@ -245,6 +265,15 @@ main {
                     }
                 }
             }
+
+            &.toolHeader {
+                flex-direction: column;
+                gap: 10px;
+                position: sticky;
+                top: 0;
+                background-color: #2c2c2c;
+            }
         }
+
     }
 }
