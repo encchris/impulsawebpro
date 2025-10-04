@@ -1,6 +1,8 @@
-import { MapApi } from "../../api/nodeMap.js";
-const Node = new MapApi;
+import { MapApi, SelectedPath } from "../../api/nodeMap.js";
+import { renderWorkArea } from "../workArea/workArea.js";
 
+const Node = new MapApi;
+const selectedPath = new SelectedPath();
 export function renderTree(rootContainer, selectedPath) {
 
     rootContainer.innerHTML = '';
@@ -28,6 +30,13 @@ function renderNode(node, selectedPath) {
         summary.className = `treeview-item${isSelected ? ' active' : ''}`;
         summary.dataset.item = node.identifier;
         summary.textContent = node.item;
+
+        const deleteSpan = document.createElement("button");
+        deleteSpan.onclick = (event) => {deleteTreeItem(event)};
+        deleteSpan.className = "delete-icon";
+        deleteSpan.textContent = "🗑";
+
+        summary.appendChild(deleteSpan);
         element.appendChild(summary);
         
         // Agrega todos los hijos
@@ -46,10 +55,26 @@ function renderNode(node, selectedPath) {
         element.textContent = node.item;
         
         // Agregar el ícono de basura y otros elementos al div aquí
-        const deleteSpan = document.createElement("span");
+        const deleteSpan = document.createElement("button");
+        deleteSpan.onclick = (event) => {deleteTreeItem(event)};
         deleteSpan.className = "delete-icon";
         deleteSpan.textContent = "🗑";
         element.appendChild(deleteSpan);
     }
     return element;
+}
+function deleteTreeItem(event) {
+    const button = event.target;
+    const key = button.parentElement?.getAttribute('data-item');
+    
+    Node.deleteNode(key);
+    
+    selectedPath.set('root');
+    document.getElementById('selected-path').textContent = selectedPath.get;
+
+    const rootDetailsContent = document.querySelector('.treeview-details-content');
+    const detailsElement = rootDetailsContent.querySelector('.treeview-root');
+
+    renderTree(detailsElement, 'root');
+    renderWorkArea()
 }
