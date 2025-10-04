@@ -1,9 +1,9 @@
-import { MapApi } from "./src/api/nodeMap.js";
+import { MapApi, SelectedPath } from "./src/api/nodeMap.js";
 import { renderStyles, renderToolset } from "./src/view/toolset/toolset.js";
 import { renderTree } from "./src/view/treeview/treeview.js";
 import { renderWorkArea } from "./src/view/workArea/workArea.js";
 
-let selectedPath = 'root';
+const selectedPath = new SelectedPath();
 const Node = new MapApi();
 
 function addChildByIdentifierFast(parentId, newChild) {
@@ -31,10 +31,10 @@ function selectNode(event) {
         const selectedNode = event.target;
         selectedNode.classList.add('active');        
         
-        selectedPath = selectedNode.dataset.item;
-        document.getElementById('selected-path').textContent = selectedPath;
+        selectedPath.set(selectedNode.dataset.item);
+        document.getElementById('selected-path').textContent = selectedPath.get;
 
-        renderStyles(selectedPath);
+        renderStyles(selectedPath.get);
     }
 }
 
@@ -55,48 +55,80 @@ function addNode() {
     if (tagName) {
         const newNode = generateNewNode(tagName);
 
-        addChildByIdentifierFast(selectedPath, newNode);
+        addChildByIdentifierFast(selectedPath.get, newNode);
 
-        const rootDetailsContent = document.querySelector('.treeview-details-content');
-        const detailsElement = rootDetailsContent.querySelector('.treeview-root');  // El elemento <details>
-
-        renderTree(detailsElement, selectedPath);
-        renderWorkArea();
-        renderToolset(selectedPath);
+        renderStart();
+        
         // Limpiar el input
         document.getElementById('input-node').value = '';
-        // console.log("treeView", Node.allNode);
+        console.log("treeView", Node.allNode);
     }
 }
 
+function renderStart() {
+    if(!Node.allNode) return;
+
+    const rootDetailsContent = document.querySelector('.treeview-details-content');
+    const detailsElement = rootDetailsContent.querySelector('.treeview-root');  // El elemento <details>
+
+    renderTree(detailsElement, selectedPath.get);
+    renderWorkArea();
+    renderToolset(selectedPath.get);
+}
+
 function addStyle() {
-    if (selectedPath === 'root') return;
     const inputKey = document.getElementById('atributo');
     const inputValue = document.getElementById('atributo-value');
 
-    const nodeSelected = Node.nodeById(selectedPath);
+    if (selectedPath.get === 'root' || !inputKey.value || !inputKey.value) return;
+
+    const nodeSelected = Node.nodeById(selectedPath.get);
 
     if (!nodeSelected.atributos.style) {
         nodeSelected.atributos.style = {};
     }
 
     nodeSelected.atributos.style[inputKey.value] = inputValue.value;
-
-    Node.updateNode(selectedPath, nodeSelected);
+    Node.updateNode(selectedPath.get, nodeSelected);
 
     renderWorkArea();
-    renderStyles(selectedPath);
+    renderStyles(selectedPath.get);
 
     inputKey.value = '';
     inputValue.value = '';
 
-    console.log(Node.nodeById(selectedPath).atributos);
+    console.log(Node.nodeById(selectedPath.get).atributos);
+}
+
+function GuardarLocal() {
+    const nodeToSave = Node.allNode;
+    const arrayFromMap = Array.from(nodeToSave.entries());
+    const jsonString = JSON.stringify(arrayFromMap);
+
+    localStorage.setItem('Nodo', jsonString);
+}
+
+function newProject() {
+    localStorage.removeItem('Nodo');
+    Node.cleanNode();
+    
+    renderStart();
+    renderStyles('');
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     const sidebarTreeview = document.querySelector('.sidebar-treeview');
     const btnAddNode = document.getElementById('add-node');
     const btnAddStyle = document.getElementById('btn-add-style');
+
+    renderStart();
+
+    //Guardar y Nuevo
+    const guardar = document.getElementById('btn-save');
+    const nuevoProject = document.getElementById('btn-new');
+
+    guardar.addEventListener('click', GuardarLocal)
+    nuevoProject.addEventListener('click', newProject);
     
     // EVENTOS
     sidebarTreeview.addEventListener('click', (event) => { selectNode(event) });
