@@ -80,6 +80,10 @@
             </div>
         </main>
         <div id="toolset-root">
+            <div>
+                <button class="nav-button active" id="btn-save">Guardar</button>
+                <button class="nav-button active" id="btn-new">Nuevo</button>
+            </div>
             <div class="tool">
                 <button class="nav-button active">Diseño</button>
                 <button class="nav-button">Interacción</button>
@@ -108,16 +112,18 @@
                 <span>Position</span>
             </div>
             <div class="tool">
-                <div>
+                <div class="toolHeader">
+                    
                     <span>Estilos CSS</span>
+                    
+                    <div>
+                        <input type="text" id="atributo" placeholder="Ej: color">
+                        <input type="text" id="atributo-value" placeholder="Ej: #000">
+                        <button id="btn-add-style">Agregar estilos</button>
+                    </div>
                 </div>
                 <div id="styles">
 
-                </div>
-                <div>
-                    <input type="text" id="atributo" placeholder="Ej: color">
-                    <input type="text" id="atributo-value" placeholder="Ej: #000">
-                    <button id="btn-add-style">Agregar estilos</button>
                 </div>
             </div>
         </div>
